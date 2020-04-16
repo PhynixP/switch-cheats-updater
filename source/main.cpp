@@ -81,7 +81,7 @@ void run(){
     //titles = getInstalledTitles({NcmStorageId_SdCard, NcmStorageId_BuiltInUser, NcmStorageId_GameCard});
     titles = getInstalledTitlesNs();
 
-    std::cout << "Funde " << titles.size() << " installierte Titel" << std::endl;
+    std::cout << "Gefundene installierte Titel " << titles.size() << std::endl;
     consoleUpdate(NULL);
 
     std::string ver = fetchVersion(RELEASE_URL, "1100-1110");
@@ -121,10 +121,12 @@ int main(int argc, char* argv[])
     initServices();
 
     std::cout << "\033[1;31m" <<"Cheats Updater v" << VERSION << " by HamletDuFromage / German Mod by PhyniX fuer PSX-Tools" << "\033[0m" <<std::endl;
-    std::cout << "Duecke [A] zum Downloaden/Updaten der Cheats" << std::endl;
-    std::cout << "Halte [L] um auch Cheat-Credits und Anweisungen herunterzuladen" << std::endl;
+    std::cout << std::endl;  
+	std::cout << "Druecke [A] zum Downloaden/Updaten der Cheats" << std::endl;
+    std::cout << "Halte   [L] und Druecke [A] um auch Cheat-Anweisungen herunterzuladen" << std::endl;
     std::cout << "Druecke [X] um alle vorhandenen Cheat-Dateien zu loeschen" << std::endl;
-    std::cout << "Druecke [+] zum Beenden" << std::endl << std::endl;
+    std::cout << std::endl;  
+	std::cout << "Druecke [+] zum Beenden" << std::endl << std::endl;
 
     consoleUpdate(NULL);
 
