@@ -86,8 +86,8 @@ void run(){
 
     std::string ver = fetchVersion(RELEASE_URL, "1100-1110");
     std::string oldVersion = readVersion("version.dat");
-    if(sxos) std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " for SXOS" <<std::endl;
-    else std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " for AMS" <<std::endl;
+    if(sxos) std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " fuer SXOS" <<std::endl;
+    else std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " fuer AMS" <<std::endl;
     std::cout << std::endl;
     if(ver == oldVersion){
         std::cout << "Cheats sind UptoDate" << std::endl;
