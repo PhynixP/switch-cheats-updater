@@ -45,7 +45,7 @@ int download_progress(void *p, double dltotal, double dlnow, double ultotal, dou
 
     if (counter == 0 || counter == 2 || counter == 4 || counter == 6 || counter == 8)
     {
-        printf("*** DOWNLOADING: %.2fMB of %.2fMB ***\r", dlnow / _1MiB, dltotal / _1MiB);
+        printf("*** Downloade: %.2fMB of %.2fMB ***\r", dlnow / _1MiB, dltotal / _1MiB);
         consoleUpdate(NULL);
     }
 
@@ -120,7 +120,7 @@ static size_t WriteMemoryCallback2(void *contents, size_t size, size_t nmemb, vo
   char *ptr = static_cast<char *>(realloc(mem->memory, mem->size + realsize + 1));
   if(ptr == NULL) {
     /* out of memory! */ 
-    printf("not enough memory (realloc returned NULL)\n");
+    printf("Nicht genug Speicher (realloc returned NULL)\n");
     return 0;
   }
  

@@ -81,29 +81,29 @@ void run(){
     //titles = getInstalledTitles({NcmStorageId_SdCard, NcmStorageId_BuiltInUser, NcmStorageId_GameCard});
     titles = getInstalledTitlesNs();
 
-    std::cout << "Found " << titles.size() << " installed titles" << std::endl;
+    std::cout << "Funde " << titles.size() << " installierte Titel" << std::endl;
     consoleUpdate(NULL);
 
     std::string ver = fetchVersion(RELEASE_URL, "1100-1110");
     std::string oldVersion = readVersion("version.dat");
-    if(sxos) std::cout << "Current cheats revision: v" << oldVersion << ", downloading v" << ver << " for SXOS" <<std::endl;
-    else std::cout << "Current cheats revision: v" << oldVersion << ", downloading v" << ver << " for AMS" <<std::endl;
+    if(sxos) std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " for SXOS" <<std::endl;
+    else std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " for AMS" <<std::endl;
     std::cout << std::endl;
     if(ver == oldVersion){
-        std::cout << "Already up to date. There's nothing else to do." << std::endl;
+        std::cout << "Cheats sind UptoDate" << std::endl;
     }
     else if(ver == "-1"){
-        std::cout << "Couldn't reach the download page. Please check your internet connection" << std::endl;
+        std::cout << "Bitte pruefe die Internetverbindung" << std::endl;
     }
     else{
         std::string url = std::string(ARCHIVE_URL) + filename;
         if(downloadFile(url.c_str(), filename.c_str(), OFF)){
             int upd = extractCheats(filename.c_str(), titles, sxos, credits);
-            std::cout << "Successfully extacted " << upd << " cheat files" << std::endl;
+            std::cout << "Erfolgreich entpackt " << upd << " Cheats-Dateien" << std::endl;
             saveVersion("version.dat", ver);
         }
         else{
-            std::cout << "Couldn't download the cheats archive" << std::endl;
+            std::cout << "Konnte Cheat-Archiv nicht downloaden" << std::endl;
         }
     }
     consoleUpdate(NULL);
@@ -113,18 +113,18 @@ void cleanUp(){
     bool sxos = !(isServiceRunning("dmnt:cht") && !(isServiceRunning("tx") && !isServiceRunning("rnx")));
     int c = removeCheats(sxos);
     saveVersion("version.dat", "0");
-    std::cout << "Removed " << c << " cheat files" << std::endl;
+    std::cout << "Geloecht " << c << " Cheat-Dateien" << std::endl;
 }
 
 int main(int argc, char* argv[])
 {
     initServices();
 
-    std::cout << "\033[1;31m" <<"Cheats Updater v" << VERSION << " by HamletDuFromage" << "\033[0m" <<std::endl;
-    std::cout << "Press [A] to download and update cheat files" << std::endl;
-    std::cout << "Hold  [L] and press [A] to also download cheat credits and instructions" << std::endl;
-    std::cout << "Press [X] to delete all existing cheat files" << std::endl;
-    std::cout << "Press [+] to quit" << std::endl << std::endl;
+    std::cout << "\033[1;31m" <<"Cheats Updater v" << VERSION << " by HamletDuFromage / German Mod by PhyniX fuer PSX-Tools" << "\033[0m" <<std::endl;
+    std::cout << "Duecke [A] zum Downloaden/Updaten der Cheats" << std::endl;
+    std::cout << "Halte [L] um auch Cheat-Credits und Anweisungen herunterzuladen" << std::endl;
+    std::cout << "Druecke [X] um alle vorhandenen Cheat-Dateien zu loeschen" << std::endl;
+    std::cout << "Druecke [+] zum Beenden" << std::endl << std::endl;
 
     consoleUpdate(NULL);
 
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
             if(!done){
                 run();
                 done = true;
-                std::cout << "\033[7;37m"<< "\nPress [+] to quit" << "\033[0m" <<std::endl;
+                std::cout << "\033[7;37m"<< "\nDruecke [+] zum Beenden" << "\033[0m" <<std::endl;
                 consoleUpdate(NULL);
 
             }
@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
             if(!done){
                 cleanUp();
                 done = true;
-                std::cout << "\033[7;37m"<< "\nPress [+] to quit" << "\033[0m" <<std::endl;
+                std::cout << "\033[7;37m"<< "\nDruecke [+] zum Beenden" << "\033[0m" <<std::endl;
                 consoleUpdate(NULL);
 
             }

@@ -101,7 +101,7 @@ int extractCheats(std::string zipPath, std::vector<std::string> titles, bool sxo
         }
     }
 
-    std::cout << "\033[4;31m"<< "\n*** Extracting cheats (this may take a while) ***" << "\033[0m" <<std::endl;
+    std::cout << "\033[4;31m"<< "\n*** Entpacke Cheats ***" << "\033[0m" <<std::endl;
 
     int count = 0;
     size_t lastL = 0;
