@@ -44,8 +44,8 @@ DATA		:=	data
 INCLUDES	:=	include libs/minizip/include
 #ROMFS		:=	romfs
 APP_TITLE   :=  Cheats Updater
-APP_AUTHOR  :=  HamletDuFromage
-APP_VERSION :=  1.1.4
+APP_AUTHOR  :=  HamletDuFromage Mod by PhyniX
+APP_VERSION :=  1.1.6
 
 #---------------------------------------------------------------------------------
 # options for code generation

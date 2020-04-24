@@ -8,7 +8,7 @@
 
 #include <switch.h>
 
-#define VERSION "1.1.4"
+#define VERSION "1.1.6"
 #define RELEASE_URL "https://github.com/HamletDuFromage/switch-cheats-db/releases/tag/v1.0"
 #define ARCHIVE_URL "https://github.com/HamletDuFromage/switch-cheats-db/releases/download/v1.0/"
 
@@ -40,8 +40,6 @@ std::string readVersion(std::string path){
 }
 
 void saveVersion(std::string path, std::string version){
-    std::filesystem::create_directory("/config");
-    std::filesystem::create_directory("/config/cheats-updater");
     std::fstream newVersion;
     newVersion.open("/config/cheats-updater/" + path, std::fstream::out | std::fstream::trunc);
     newVersion << version << std::endl;
@@ -75,14 +73,23 @@ void run(){
         filename = "contents.zip";
         std::filesystem::create_directory("/atmosphere/contents");
     }
-
+    std::filesystem::create_directory("/config");
+    std::filesystem::create_directory("/config/cheats-updater");
 
     std::vector<std::string> titles;
     //titles = getInstalledTitles({NcmStorageId_SdCard, NcmStorageId_BuiltInUser, NcmStorageId_GameCard});
     titles = getInstalledTitlesNs();
 
-    std::cout << "Gefundene installierte Titel " << titles.size() << std::endl;
-    consoleUpdate(NULL);
+        int total = titles.size();
+    std::cout << "Gefundene installierte Titel" << total << "" << std::endl;
+
+    titles = excludeTitles("/config/cheats-updater/exclude.txt", titles);
+    if((int) titles.size() != total)
+        std::cout << "Gefundene ausgeschlossende Titel " << total - titles.size() << "" << std::endl;
+
+    std::cout << std::endl;
+	
+	consoleUpdate(NULL);
 
     std::string ver = fetchVersion(RELEASE_URL, "1100-1110");
     std::string oldVersion = readVersion("version.dat");
@@ -90,7 +97,7 @@ void run(){
     else std::cout << "Aktuelle Cheats Revision: v" << oldVersion << ", downloade v" << ver << " fuer AMS" <<std::endl;
     std::cout << std::endl;
     if(ver == oldVersion){
-        std::cout << "Cheats sind UptoDate" << std::endl;
+        std::cout << "Cheats sind Up-To-Date" << std::endl;
     }
     else if(ver == "-1"){
         std::cout << "Bitte pruefe die Internetverbindung" << std::endl;
@@ -98,7 +105,8 @@ void run(){
     else{
         std::string url = std::string(ARCHIVE_URL) + filename;
         if(downloadFile(url.c_str(), filename.c_str(), OFF)){
-            int upd = extractCheats(filename.c_str(), titles, sxos, credits);
+           //if(false){ 
+			int upd = extractCheats(filename.c_str(), titles, sxos, credits);
             std::cout << "Erfolgreich entpackt " << upd << " Cheats-Dateien" << std::endl;
             saveVersion("version.dat", ver);
         }
@@ -120,12 +128,19 @@ int main(int argc, char* argv[])
 {
     initServices();
 
-    std::cout << "\033[1;31m" <<"Cheats Updater v" << VERSION << " by HamletDuFromage / German Mod by PhyniX fuer PSX-Tools" << "\033[0m" <<std::endl;
-    std::cout << std::endl;  
+	std::cout << "\033[31m" << "================================================================================" << "\033[0m" << std::endl;
+    std::cout << "\033[1;31m" <<"Cheats Updater v" << VERSION << " by HamletDuFromage / German Mod by PhyniX fuer PSX-Tools\n" << "\033[0m" <<std::endl;
+    std::cout << "\033[31m" << "================================================================================" << "\033[0m" << std::endl;
+	std::cout << std::endl;
+	
+	std::cout << "\033[36m" << "Titel IDs in dem Verzeichnis \"/config/cheats-updater/exclude.txt\" werden ignoriert" << "\033[0m" << std::endl;
+	
 	std::cout << "Druecke [A] zum Downloaden/Updaten der Cheats" << std::endl;
     std::cout << "Halte   [L] und Druecke [A] um auch Cheat-Anweisungen herunterzuladen" << std::endl;
-    std::cout << "Druecke [X] um alle vorhandenen Cheat-Dateien zu loeschen" << std::endl;
-    std::cout << std::endl;  
+    std::cout << "Druecke [X] um alle vorhandenen Cheat-Dateien zu loeschen\n" << std::endl;
+	
+	
+	
 	std::cout << "Druecke [+] zum Beenden" << std::endl << std::endl;
 
     consoleUpdate(NULL);

@@ -1,5 +1,5 @@
 #include "extract.hpp"
-#include <iostream>
+
 
 std::vector<std::string> getInstalledTitles(std::vector<NcmStorageId> storageId){
     std::vector<std::string> titles;
@@ -36,13 +36,33 @@ std::vector<std::string> getInstalledTitlesNs(){
         }
     }
     delete[] recs;
-    return titles;
+    std::sort(titles.begin(), titles.end());
+	return titles;
 }
 
 std::string formatApplicationId(u64 ApplicationId){
     std::stringstream strm;
     strm << std::uppercase << std::setfill('0') << std::setw(16) << std::hex << ApplicationId;
     return strm.str();
+}
+
+std::vector<std::string> excludeTitles(const char* path, std::vector<std::string> listedTitles){
+    std::vector<std::string> titles;
+    std::ifstream file(path);
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::transform(line.begin(), line.end(), line.begin(), ::toupper);
+            titles.push_back(line);
+        }
+        file.close();
+    }
+
+    std::sort(titles.begin(), titles.end());
+    std::vector<std::string> diff;
+    std::set_difference(listedTitles.begin(), listedTitles.end(), titles.begin(), titles.end(), 
+                         std::inserter(diff, diff.begin()));
+    return diff;
 }
 
 bool caselessCompare (const std::string& a, const std::string& b){
@@ -71,8 +91,7 @@ int extractCheats(std::string zipPath, std::vector<std::string> titles, bool sxo
     }
 
     std::sort(entriesNames.begin(), entriesNames.end(), caselessCompare);
-    std::sort(titles.begin(), titles.end());
-
+    
     std::vector<std::string> parents;
     std::vector<std::vector<std::string>> children;
     std::vector<std::string> tempChildren;
@@ -101,7 +120,7 @@ int extractCheats(std::string zipPath, std::vector<std::string> titles, bool sxo
         }
     }
 
-    std::cout << "\033[4;31m"<< "\n*** Entpacke Cheats ***" << "\033[0m" <<std::endl;
+    std::cout << "\033[1;4;31m"<< "\n*** Entpacke Cheats ***" << "\033[0m" <<std::endl;
 
     int count = 0;
     size_t lastL = 0;
@@ -145,7 +164,12 @@ int removeCheats(bool sxos){
                 std::filesystem::remove(cheat);
                 c++;
             }
-            std::filesystem::remove(cheatsPath);
+            
+			//std::filesystem::remove(cheatsPath);
+            rmdir(cheatsPath.c_str());
+            if(std::filesystem::is_empty(entry)){
+                rmdir(entry.path().string().c_str());
+            }
         }
     }
     return c;
