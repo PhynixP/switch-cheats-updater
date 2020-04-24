@@ -12,6 +12,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <filesystem>
+#include <iostream>
+#include <fstream>
+
+#include <unistd.h>
 
 #include <unzipper.h>
 
@@ -25,6 +29,8 @@ std::vector<std::string> getInstalledTitles(std::vector<NcmStorageId> storageId)
 std::vector<std::string> getInstalledTitlesNs();
 
 std::string formatApplicationId(u64 ApplicationId);
+
+std::vector<std::string> excludeTitles(const char* path, std::vector<std::string>);
 
 int extractCheats(std::string zipPath, std::vector<std::string> titles, bool sxos, bool credits);
 
